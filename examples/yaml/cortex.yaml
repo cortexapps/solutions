@@ -44,12 +44,12 @@ openapi: 3.0.0
 #     url: <URL>
 
 
-# Service Groups
+# Groups
 
-# !Service Groups must contain only alphanumeric characters, and may not contain whitespaces!
+# !Groups must contain only alphanumeric characters, and may not contain whitespaces!
 # Required fields: N/A
 # Optional fields: N/A
-# x-cortex-service-groups:
+# x-cortex-groups:
 #  - <GROUP_NAME>
 #  - <GROUP_NAME>
 #  - <GROUP_NAME>

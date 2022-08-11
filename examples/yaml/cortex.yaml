@@ -31,13 +31,13 @@ openapi: 3.0.0
 #     url: <URL_TO_LINK>
 #     description: <DESCRIPTION>
 #
-## Note that type of OPENAPI will be displayed in the API Explorer tab in the Cortex UI
+## Note that type of OPENAPI/ASYNC_API will be displayed in the API Explorer tab in the Cortex UI
 ## Links support relative URLs
 
 # Dashboards
 
-# Required fields: type (enumerable field options listed below), url (refers to src of iframe generated in third-party dashboading tool)
-# Optional fields: N/A
+# Required fields: url (refers to src of iframe generated in third-party dashboading tool)
+# Optional fields: type (enumerable field options listed below)
 # x-cortex-dashboards:
 # embeds:
 #   - type: <datadog | grafana | newrelic>
@@ -95,6 +95,12 @@ openapi: 3.0.0
 # Note the metadata section above is customizable.
 
 # Integrations
+
+# Azure DevOps
+# x-cortex-git:
+#   azure:
+#     project: <project-name>
+#     repository: <repository-name>
 
 # BambooHR
 # x-cortex-owners:
@@ -164,6 +170,7 @@ openapi: 3.0.0
 # x-cortex-owners:
 #   - type: group
 #     name: <GROUP_NAME>
+#     provider: GOOGLE
 
 # Grafana
 # x-cortex-dashboards:
@@ -179,12 +186,24 @@ openapi: 3.0.0
 #       - <LABEL2>
 #     components:
 #       - <COMPONENT1>
+#     projects:
+#       - project1
 
 # Kubernetes
-# info:
-#   title: <HUMAN_READABLE_SERVICE_NAME>
-#   x-cortex-tag: <SERVICE_TAG>
-#   description: <DESCRIPTION>
+# x-cortex-k8s:
+#  deployment:
+#    - identifier: namespace/name
+#      cluster: dev # optional
+#    - identifier: experiment/scratch
+#      cluster: dev
+#    - identifier: default/cortex
+#      cluster: prod
+#  argorollout:
+#    - identifier: namespace/name
+#      cluster: dev
+#   statefulset:
+#   - identifier: namespace/name
+#     cluster: dev
 
 # Lightstep
 # x-cortex-slos:
@@ -236,6 +255,13 @@ openapi: 3.0.0
 #   pagerduty:
 #     id: <POLICY_ID> # Escalation Policy ID
 #     type: ESCALATION_POLICY
+
+# Prometheus
+# x-cortex-slos:
+#  prometheus:
+#    - errorQuery: <query>
+#      totalQuery: <query>
+#      slo: <slo target number>
 
 # Rollbar
 # x-cortex-rollbar:

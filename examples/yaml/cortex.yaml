@@ -15,9 +15,9 @@ openapi: 3.0.0
 
 # Required fields: info, title, x-cortex-tag
 # Optional fields: description
-# info:
-#   title: <HUMAN_READABLE_SERVICE_NAME>
-#   x-cortex-tag: <SERVICE_TAG>
+info:
+  title: <HUMAN_READABLE_SERVICE_NAME>
+  x-cortex-tag: <SERVICE_TAG>
 #   description: <DESCRIPTION>
 # Add any additional metadata nested under the "info" field to use in Query Builder
 

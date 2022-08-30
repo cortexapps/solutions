@@ -10,7 +10,8 @@ CORTEX_BACKEND_DEPLOYMENT="cortex-deployment-backend"
 
 mkdir braindump; cd braindump/
 helm get manifest $HELM_MANIFEST > helm-manifest.yaml
-kubectl get po -o json -l cortex > pods.json
+kubectl describe deployments > deployments.json
+kubectl describe po -o json -l cortex > pods.json
 kubectl logs --since=8h deploymnent/$CORTEX_BACKEND_DEPLOYMENT > backend-logs.log
 cd ..
 tar -xzcf braindump.tar.gz braindump

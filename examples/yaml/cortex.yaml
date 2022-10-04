@@ -95,6 +95,13 @@ info:
   # Note the metadata section above is customizable.
 
   # Integrations
+  
+  # AzureAD
+  # x-cortex-owners:
+  #     - type: group
+  #       name: <TEAM_NAME>
+  #       provider: ACTIVE_DIRECTORY
+  #       description: # optional
 
   # Azure DevOps
   # x-cortex-git:
@@ -106,6 +113,8 @@ info:
   # x-cortex-owners:
   #     - type: group
   #       name: <TEAM_NAME>
+  #       provider: BAMBOO_HR
+  #       description: # optional
 
   # Bitbucket
   # x-cortex-git:
@@ -155,6 +164,8 @@ info:
   # x-cortex-owners:
   #   - type: group
   #     name: <ORGANIZATION>/<TEAM> # Must be of form <org>/<team>
+  #       provider: GITHUB
+  #       description: # optional
 
 
   # Gitlab
@@ -162,9 +173,7 @@ info:
   #   gitlab:
   #     repository: <namespace>/<project>
   #     basepath: <SERVICE_NAME> # optional
-  # x-cortex-owners:
-  #   - type: group
-  #     name: <GROUP_NAME>
+
 
   # Google
   # x-cortex-owners:
@@ -228,6 +237,8 @@ info:
   # x-cortex-owners:
   #   - type: group
   #     name: <GROUP_NAME> # group name in Okta
+  #     provider: OKTA
+  #     description: # optional
 
   # OpsGenie
   # x-cortex-oncall:
@@ -237,6 +248,8 @@ info:
   # x-cortex-owners:
   #   - type: group
   #     name: <GROUP_NAME>
+  #     provider: OPSGENIE
+  #     description: # optional
   # x-cortex-alerts:
   #   - type: opsgenie
   #     tag: <KEY>

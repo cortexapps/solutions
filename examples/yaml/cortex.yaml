@@ -139,6 +139,7 @@ info:
   #         value: <VALUE>
   #       - tag: <KEY>
   #         value: <VALUE>
+  #.    serviceName: <NAME IN DATADOG>
   #     monitors:
   #         - <MONITOR_ID>
   #         - <MONITOR_ID_2>

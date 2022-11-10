@@ -197,6 +197,9 @@ info:
   #       - <COMPONENT1>
   #     projects:
   #       - project1
+  #
+  # Optional: Override Cortex default Jira query
+  #  defaultJql: 'status = "In Progress"'
 
   # Kubernetes
   # x-cortex-k8s:

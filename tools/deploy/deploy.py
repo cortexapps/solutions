@@ -39,9 +39,6 @@ api_token = ''
 # the timestamp needs to be in the ISO format (i.e. "2019-08-24T14:15:22Z"), Python for some reason does not provide the Z at the end so...
 time_stamp= datetime.now().replace(microsecond=0).isoformat() + 'Z'
 json_body = ''
-
-print("Let's get the options")
-
   
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-k","--api_token", required=True, help='The Cortex API token')
@@ -64,9 +61,6 @@ status_msg = args.status_msg
 deployer  = args.deployer
 deployer_email = args.deployer_email
 api_token = args.api_token
-
-print("OK")
-print('mapping options to vars...')
 
 #Now that we have captured all the parameters, let's put our REST call together
 #First we are going to see if we have all the required options
@@ -91,7 +85,3 @@ json_body = {
     }
   }
 response = requests.post(api_url, json=json_body, headers=headers)
-  
-data = response.json()
-  
-print(data)

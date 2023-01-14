@@ -12,7 +12,12 @@ A Dockerfile is also included for your convenience so you don't have to worry ab
 
 ```bash
 
-usage: deploy.py [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
-                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
+usage: 
 
+deploy.py [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
+or
+
+docker run deployer:latest [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
 ```

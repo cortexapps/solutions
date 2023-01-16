@@ -1,25 +1,28 @@
 # action.yaml
-name: 'Cortex GitHub Action'
-description: 'A GitHub Action that creates a Deploy Event in a Service in Cortex'
-inputs:
-  num:
-    description: 'Enter your Cortex API Token'
-    required: true
-    default: "1"
-runs:
-  steps:
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'  
-    - name: Install Dependencies
-      run: pip install -r requirements.txt
-      shell: bash
-    - name: Pass Inputs to Shell
-      run: |
-              echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
-      shell: bash
-    - name: Add Deploy Event
-      id: add-deploy
-      run: python src/deploy.py
-      shell: bash
+name: 'Deployer Cortex GitHub Action'
+description: 'A GitHub Action that runs the Deployer App'
+
+on: push
+
+jobs:
+  add_deploy_event_cortex:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: mock_deploy
+        id: deploy
+        
+      - uses: docker://cremerfc/deploy:0.1
+        with:
+          args: >- # allows you to break string into multiple lines
+            -k ${{ secrets.CORTEX_API_TOKEN }}
+            -s ${{ ${{ github.sha }}}}
+            -d GitHub Actions
+            -g ${{ secrets.CORTEX_TAG}} 
+            -t "DEPLOY"
+            -e Prod
+            -u {{ steps.deploy.output}}
+
+
+            input.txt
+
+ 

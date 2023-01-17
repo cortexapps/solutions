@@ -20,7 +20,8 @@ jobs:
             -g ${{ secrets.CORTEX_TAG}} 
             -t "DEPLOY"
             -e Prod
-            -u {{ steps.deploy.output}}
+            -u {{ steps.deploy.outcome }}
+          
 
 
             input.txt

@@ -24,7 +24,7 @@ docker run deployer:latest [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE
 
 ## Integrating with CD tools
 
-Most CD tools provide a way to run a container. Each one may have different ways to pass the arguments, especially when using dynamic values (i.e., sha, tokens, etc... ). Here are some snippets to help you get started.
+Most CD tools provide a way to run a container. Each one may have different ways to pass the arguments, especially when using dynamic values (i.e., sha, tokens, etc... ). Here are some snippets to help you get started using the docker image. Not all deploy tools may support running a container as a step in the pipeline, so in that case using the Python script may be a better option.
 
 ### Jenkinsfile
 
@@ -93,4 +93,6 @@ Azure DevOps has a conatiner job available, however it does require Node.js to b
 
 ## Spinnaker
 
-Spinnaker has a [Run job](https://spinnaker.io/docs/reference/pipeline/stages/#run-job) step in their pipeline. This will require to create a Kubernetes Job manifest, similar to the one found [here](https://docs.liquibase.com/workflows/liquibase-community/using-the-run-job-pipeline-stage-with-spinnaker.html)
+Spinnaker has a [Run job](https://spinnaker.io/docs/reference/pipeline/stages/#run-job) step in their pipeline. This will require to create a Kubernetes Job manifest, similar to the one found [here](https://docs.liquibase.com/workflows/liquibase-community/using-the-run-job-pipeline-stage-with-spinnaker.html).
+
+However, spinnaker does also have a [webhook](https://spinnaker.io/docs/reference/pipeline/stages/#webhook) that allows you to send a REST call to an external system. In this case, it may be simpler to use this native functionality instead of using the image.

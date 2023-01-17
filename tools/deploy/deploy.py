@@ -39,49 +39,54 @@ api_token = ''
 # the timestamp needs to be in the ISO format (i.e. "2019-08-24T14:15:22Z"), Python for some reason does not provide the Z at the end so...
 time_stamp= datetime.now().replace(microsecond=0).isoformat() + 'Z'
 json_body = ''
+
+# let's do the right thing and catch any errors
   
-argParser = argparse.ArgumentParser()
-argParser.add_argument("-k","--api_token", required=True, help='The Cortex API token')
-argParser.add_argument("-s","--commit_sha", required=True, help='The Cortex tag, i.e., the x-cortex-tag: value in the Cortex.yaml file')
-argParser.add_argument("-g","--cortex_tag", required=True, help='')
-argParser.add_argument("-t","--type", required=True, help='')
-argParser.add_argument("-e","--env", required=True, help='')
-argParser.add_argument("-u","--status", required=True, help='')
-argParser.add_argument("-m","--status_msg", required=True, help='')
-argParser.add_argument("-d","--deployer", required=True, help='')
-argParser.add_argument("-l","--deployer_email", required=True, help='')
+try:
+  argParser = argparse.ArgumentParser()
+  argParser.add_argument("-k","--api_token", required=True, help='The Cortex API token')
+  argParser.add_argument("-s","--commit_sha", required=True, help='The Cortex tag, i.e., the x-cortex-tag: value in the Cortex.yaml file')
+  argParser.add_argument("-g","--cortex_tag", required=True, help='')
+  argParser.add_argument("-t","--type", required=True, help='')
+  argParser.add_argument("-e","--env", required=True, help='')
+  argParser.add_argument("-u","--status", required=True, help='')
+  argParser.add_argument("-m","--status_msg", required=True, help='')
+  argParser.add_argument("-d","--deployer", required=True, help='')
+  argParser.add_argument("-l","--deployer_email", required=True, help='')
 
-args = argParser.parse_args()
-commit_sha = args.commit_sha
-cortex_tag = args.cortex_tag
-deploy_type = args.type
-env = args.env
-status = args.status
-status_msg = args.status_msg
-deployer  = args.deployer
-deployer_email = args.deployer_email
-api_token = args.api_token
+  args = argParser.parse_args()
+  commit_sha = args.commit_sha
+  cortex_tag = args.cortex_tag
+  deploy_type = args.type
+  env = args.env
+  status = args.status
+  status_msg = args.status_msg
+  deployer  = args.deployer
+  deployer_email = args.deployer_email
+  api_token = args.api_token
 
-#Now that we have captured all the parameters, let's put our REST call together
-#First we are going to see if we have all the required options
-api_url = 'https://api.getcortexapp.com/api/v1/catalog/' + cortex_tag + '/deploys'
-headers = {
-    'Authorization': 'Bearer ' + api_token,
-    'Content-Type': 'application/json'
+  #Now that we have captured all the parameters, let's put our REST call together
+  #First we are going to see if we have all the required options
+  api_url = 'https://api.getcortexapp.com/api/v1/catalog/' + cortex_tag + '/deploys'
+  headers = {
+      'Authorization': 'Bearer ' + api_token,
+      'Content-Type': 'application/json'
+      }
+  json_body = {
+      "title": "Deployed by Deployer",
+      "timestamp": time_stamp,
+      "type": deploy_type,
+      "sha": commit_sha,
+      "deployer": {
+        "name": deployer,
+       "email": deployer_email
+      },
+      "environment": env,
+      "customData": {
+        "Status": status,
+        "status message": status_msg
+      }
     }
-json_body = {
-    "title": "Deployed by Deployer",
-    "timestamp": time_stamp,
-    "type": deploy_type,
-    "sha": commit_sha,
-    "deployer": {
-      "name": deployer,
-     "email": deployer_email
-    },
-    "environment": env,
-    "customData": {
-      "Status": status,
-      "status message": status_msg
-    }
-  }
-response = requests.post(api_url, json=json_body, headers=headers)
+  response = requests.post(api_url, json=json_body, headers=headers)
+except Exception as e:
+  print(e)

@@ -87,6 +87,3 @@ jobs:
 
 ```
 
-## Harness 
-
-This image could also be run as a 

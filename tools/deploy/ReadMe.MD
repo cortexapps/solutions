@@ -87,3 +87,10 @@ jobs:
 
 ```
 
+## Azure DevOps
+
+Azure DevOps has a conatiner job available, however it does require Node.js to be in the image (it is currently not). Would probably need to modify the image based on https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops
+
+## Spinnaker
+
+Spinnaker has a [Run job](https://spinnaker.io/docs/reference/pipeline/stages/#run-job) step in their pipeline. This will require to create a Kubernetes Job manifest, similar to the one found [here](https://docs.liquibase.com/workflows/liquibase-community/using-the-run-job-pipeline-stage-with-spinnaker.html)

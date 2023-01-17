@@ -54,6 +54,35 @@ pipeline {
     }
   }
 }
+```
 
+## GitHub Actions
+
+Here is a sample GitHub Action. In this example we added Secrets to store the Cortex API Token and Cortex Tag:
+
+```yaml
+
+name: 'Deployer Cortex GitHub Action'
+description: 'A GitHub Action that runs the Deployer App'
+
+on: push
+
+jobs:
+  add_deploy_event_cortex:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: mock_deploy
+        id: deploy
+        
+      - uses: docker://cremerfc/deploy:0.1
+        with:
+          args: >- # allows you to break string into multiple lines
+            -k ${{ secrets.CORTEX_API_TOKEN }}
+            -s ${{ ${{ github.sha }}}}
+            -d GitHub Actions
+            -g ${{ secrets.CORTEX_TAG}} 
+            -t "DEPLOY"
+            -e Prod
+            -u {{ steps.deploy.outcome }}
 
 ```

@@ -21,6 +21,8 @@ In order to make this as simple as possible we have create scripts that automate
 - - or
 - - 'support-bundle spec.yaml`
 
+**Important!** Right now all the specs are set to run on the default namespace and collects everything it can from the cluster. Depending on how locked down our customer's clusters are, we may need to be more specific as to which namespace to collect information from. 
+
 ## How to Run the Script
 
 As of the time of this writing, there is only a script for M1 Macs. There are separate binaries to download based on the platform and right now the binary to download is hard-coded.
@@ -39,3 +41,44 @@ This should produce an output similar to this:
 ![output](img/output.png)
 
 To save the bundle click on the `s` key and then `q` to quite and get back to your terminal
+
+## Viewing the Results
+
+When you save the support bundle it will have a name that in a similar format:
+
+`support-bundle-YYYY-MM-DDTHH_MM_SS.tar.gz`
+
+This tar ball contains all the contents that the tool collected. You can untar it using your preferred tool, here is the tar command as an example
+
+```shell
+
+tar -zxvf support-bundle-2023-01-19T17_19_22.tar.gz
+
+```
+
+Once you have it expanded, you can view the contents using your favorite editor. I like to use VS Code to open the folder and view all the contents.
+
+# Cluster Info
+
+This will contain basic information about the cluster, like the version
+
+![Cluster Info](img/cluster_info.png)
+
+# Cluster Resources
+
+This will contain information about all the various resources running on the cluster. In this example, we can see the deployment for Cortex.
+
+![Cluster Resources](img/cluster_resources.png)
+
+# Cortex Logs
+
+You can also view the logs we collected:
+
+![Cortex Logs](img/cortex_log.png)
+
+# Analyzer Results
+
+If you want to check the results of the analyzers after that UI is long gone, check the `analysis.json` file
+
+![Analysis](img/analysis_json.png)
+

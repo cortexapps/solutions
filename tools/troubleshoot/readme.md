@@ -20,3 +20,22 @@ In order to make this as simple as possible we have create scripts that automate
 - - 'kubectl support-bundle spec.yaml
 - - or
 - - 'support-bundle spec.yaml`
+
+## How to Run the Script
+
+As of the time of this writing, there is only a script for M1 Macs. There are separate binaries to download based on the platform and right now the binary to download is hard-coded.
+
+To test the script on your M1 Mac try running:
+
+**hint:** create a new directory and run the command from this directory as files will be downloaded and at this moment cleanup has not been implemented
+
+```shell
+
+curl https://raw.githubusercontent.com/cortexapps/solutions/troubleshoot/tools/troubleshoot/scripts/darwin_arm.sh | sh
+
+```
+This should produce an output similar to this:
+
+![output](img/output.png)
+
+To save the bundle click on the `s` key and then `q` to quite and get back to your terminal

@@ -33,7 +33,7 @@ To test the script on your M1 Mac try running:
 
 ```shell
 
-curl https://raw.githubusercontent.com/cortexapps/solutions/troubleshoot/tools/troubleshoot/scripts/darwin_arm.sh | sh
+curl https://raw.githubusercontent.com/cortexapps/solutions/troubleshoot/tools/troubleshoot/scripts/support-bundle/sb_darwin_arm.sh | sh
 
 ```
 This should produce an output similar to this:

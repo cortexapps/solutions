@@ -2,4 +2,6 @@
 
 Simple way to get your Cortex YAML files out! 
 
-Usage: `python3 exporter.py`
+Update your `API_KEY` variable in `export.py` before running! You can get this API key from your Cortex instance.
+
+Usage: `python3 export.py`

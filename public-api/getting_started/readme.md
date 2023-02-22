@@ -22,6 +22,13 @@ This folder contains sample files to help you get started learning the Cortex AP
 
 [Adding Custom Data to a Catlog Entity](#adding-custom-data-to-a-catalog-entity)
 
+[Adding Packages to a Catalog Entity](#adding-packages-to-a-service)
+
+[Adding Deploys to a Service](#adding-deploys-to-a-service)
+
+[Adding Dependencies](#adding-dependencies)
+
+
 
 ## References
 

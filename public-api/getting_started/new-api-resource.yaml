@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  title: My new API
+  description: I wrote this
+  x-cortex-tag: my-new-api
+  x-cortex-type: api 
+  x-cortex-definition:
+    version: 1.0.0
+    

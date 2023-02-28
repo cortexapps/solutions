@@ -32,6 +32,8 @@ In order to make this as simple as possible we have create scripts that automate
 
 As of the time of this writing, there is only a script for M1 Macs. There are separate binaries to download based on the platform and right now the binary to download is hard-coded.
 
+**IMPORTANT** The script must be run from a machine that has `kubectl` access to the cluster
+
 To test the script on your M1 Mac try running:
 
 **hint:** create a new directory and run the command from this directory as files will be downloaded and at this moment cleanup has not been implemented
@@ -87,3 +89,21 @@ If you want to check the results of the analyzers after that UI is long gone, ch
 
 ![Analysis](img/analysis_json.png)
 
+### Preflight Checks
+
+As of the time of this writing, there is only a script for M1 Macs. There are separate binaries to download based on the platform and right now the binary to download is hard-coded.
+
+**IMPORTANT** The script must be run from a machine that has `kubectl` access to the cluster
+
+To test the script on your M1 Mac try running:
+
+**hint:** create a new directory and run the command from this directory as files will be downloaded and at this moment cleanup has not been implemented
+
+```shell
+
+curl https://raw.githubusercontent.com/cortexapps/solutions/troubleshoot/tools/troubleshoot/scripts/preflight-checks/pc_darwin_arm.sh | sh
+
+```
+This should produce an output similar to this:
+
+![output](img/pc_output.png)

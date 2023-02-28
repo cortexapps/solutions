@@ -56,7 +56,7 @@ spec:
               message: A container runtime other than Docker was found
 
     - secret:
-        checkName: Cortex Registry Check
+        checkName: Cortex Registry Secret Check
         secretName: cortex-docker-registry-secret
         namespace: default
         key: .dockerconfigjson

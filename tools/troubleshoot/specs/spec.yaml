@@ -1,0 +1,28 @@
+apiVersion: troubleshoot.sh/v1beta2
+kind: SupportBundle
+metadata:
+  name: cortex-bundle
+spec:
+  collectors:
+    - clusterInfo: {}
+    - clusterResources: {}
+    - logs:
+        selector:
+          - app=cortex-demo-backend
+      # Will default to the current namespace of the context.
+      # Uncomment line below to specify a namespace 
+      # namespace: default
+        limits:
+          maxAge: 720h # 30*24
+          maxLines: 10000
+          maxBytes: 5000000
+    - logs:
+        selector:
+          - app=cortex-demo-frontend
+      # Will default to the current namespace of the context.
+      # Uncomment line below to specify a namespace 
+      # namespace: default
+        limits:
+          maxAge: 720h # 30*24
+          maxLines: 10000
+          maxBytes: 5000000  

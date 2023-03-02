@@ -4,7 +4,7 @@ from datetime import datetime
 cortex_tag = 'api-created-svc'
 time_stamp= datetime.now().replace(microsecond=0).isoformat() + 'Z'
 
-api_token = 'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAABWLwQrCMAxA_yXnFeKWJu1uHnbwJornEWOFwlgHm6KI_249vsd7H1gfV-ihJYQGtveSKuyPh_FyHk7VWJmmvOYyj_os-aaz_QOlzhg7da1ndnQXcVGSOR-DhBSNPFmds27Q71iYoqCnBtJrqUIwVELk7w_9R3-pfgAAAA.5PYN5rV1ILVHvH5wjBPUK7LrgJJqY7-8pvaTMIMMObAQ7eNM83XjAyK_l5yXIgZlaNcDmxlxG9I9bagFj55JEw'
+api_token = '<your-api-token-goes-here>'
 
 api_url = 'https://api.getcortexapp.com/api/v1/catalog/' + cortex_tag + '/custom-data'
 headers = {

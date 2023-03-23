@@ -23,7 +23,7 @@ To install the plugin run this command:
 
 ### Running it as a stand alone binary
 
-The binary are included in the Assets section for each [release](https://github.com/replicatedhq/troubleshoot/releases/tag/v0.57.1) from this project. From there, download the right binary for your Operating System. For example, to run this on an M1 Mac, we would download the `support-bundle_darwin_arm64.tar.gz` file (https://github.com/replicatedhq/troubleshoot/releases/download/v0.57.1/support-bundle_darwin_arm64.tar.gz)
+The binaries are included in the Assets section for each [release](https://github.com/replicatedhq/troubleshoot/releases/tag/v0.57.1) from this project. From there, download the right binary for your Operating System and CPU architecture. For example, to run this on an M1 Mac, we would download the `support-bundle_darwin_arm64.tar.gz` file (https://github.com/replicatedhq/troubleshoot/releases/download/v0.57.1/support-bundle_darwin_arm64.tar.gz)
 
 It is strongly recommended that you download the binary to a path already in your $PATH. Otherwise, make sure to add the path where you download the binary. This will allow you to run the command from any directory.
 

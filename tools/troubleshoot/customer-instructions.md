@@ -15,7 +15,7 @@ The binary can be run in two different ways:
 
 ### Running it as a Kubectl plugins
 
-To run it as a kubectl plugin, you can installing using `krew` which is basically similar to `brew` for Mac OSs. Instructions on how to install `krew` can be found here: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+To run it as a kubectl plugin, you can install using `krew` which is basically similar to `brew` for Mac OSs. Instructions on how to install `krew` can be found here: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 
 To install the plugin run this command:
 

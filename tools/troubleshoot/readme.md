@@ -11,7 +11,7 @@ Worth noting that the data that is collected is immediately [redacted](https://t
 
 ### How Are We Using It
 
-In order to make this as simple as possible we have create scripts that automate this entire process. To better understand the process, let's outline all the steps (please note that these have to be peformed on a machine with `kubectl` access to the cluster hosting Cortex):
+In order to make this as simple as possible we have created scripts that automate this entire process. To better understand the process, let's outline all the steps (please note that these have to be performed on a machine with `kubectl` access to the cluster hosting Cortex):
 
 * Download the `support-bundle` or `preflight` binary
     * You can download it as a `kubectl` plugin using `krew`

@@ -7,7 +7,7 @@ This folder contains scripts to help us leverage [Troubleshoot](https://troubles
 
 Troubleshoot is an open source project from Replicated. This project provides the ability to specify in a manifest (yaml file) what to [collect](https://troubleshoot.sh/docs/collect/) and [analyze](https://troubleshoot.sh/docs/analyze/). The results from the analyzers are displayed to the user as well as included in the resulting tar ball that contains everything that was collected.
 
-Worth noting that the data that is collected is immediately [redacted](https://troubleshoot.sh/docs/redact/) for anything considered PII. They are configurable but not able to turn them off completely.
+Worth noting that the data that is collected is immediately [redacted](https://troubleshoot.sh/docs/redact/) for anything considered PII. These are configurable but not possible to turn off completely.
 
 ### How Are We Using It
 

@@ -4,7 +4,7 @@ If you have issues with your Cortex On Premise instance, including a Support Bun
 
 This document covers how you can generate one.
 
-## Download & Install Troubleshoot Framework
+## Download & Install The Troubleshoot Framework
 
 To help us collect all the information we need, we are leveraging the [Troubleshoot](https://troubleshoot.sh/) open source project. To create a support bundle we'll need to download and install the binary along with a yaml spec that includes what to collect.
 

@@ -58,32 +58,36 @@ pipeline {
 
 ## GitHub Actions
 
-Here is a sample GitHub Action. In this example we added Secrets to store the Cortex API Token and Cortex Tag:
+Here is an sample GitHub Action. This example deploys to an EC2 instance and then updates Cortex using the result of the deploy step :
 
 ```yaml
-
-name: 'Deployer Cortex GitHub Action'
-description: 'A GitHub Action that runs the Deployer App'
-
-on: push
+name: deploy
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  add_deploy_event_cortex:
-    runs-on: ubuntu-18.04
+  deploy:
+    name: Deploy to EC2 on master branch push
+    runs-on: ubuntu-latest
+
     steps:
-      - name: mock_deploy
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server 1
         id: deploy
-        
-      - uses: docker://cremerfc/deploy:0.1
-        with:
-          args: >- # allows you to break string into multiple lines
-            -k ${{ secrets.CORTEX_API_TOKEN }}
-            -s ${{ ${{ github.sha }}}}
-            -d GitHub Actions
-            -g ${{ secrets.CORTEX_TAG}} 
-            -t "DEPLOY"
-            -e Prod
-            -u {{ steps.deploy.outcome }}
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
+      - name: Update Cortex
+        run: docker run cremerfc/deploy:0.2 -k ${{ secrets.CORTEX_API_TOKEN }} -s ${{ github.sha }} -d "GitHub Actions" -g ${{ secrets.CORTEX_TAG}} -t "DEPLOY" -e Prod -u ${{ steps.deploy.outcome }} -l email@example.com -m "Trying this"
+  
+
 
 ```
 

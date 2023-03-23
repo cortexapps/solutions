@@ -1,6 +1,6 @@
 ## Instructions for Troubleshooting Cortex On Premise
 
-If you have issues with your Cortex On Premise instance, including a Support Bundle when you initially open a ticket will greatly increase the time to resolution.
+If you have issues with your Cortex On Premise instance, including a Support Bundle when you initially open a ticket will greatly decrease the time to resolution.
 
 This document covers how you can generate one.
 

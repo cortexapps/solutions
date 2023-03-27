@@ -26,7 +26,9 @@ For the 'custom data' option you must provide a key value pair in json format, n
 
 Here is an example command (cortex tag and API token are set as environment variables):
 
+```shell
 python3 deploy.py -k $CORTEX_TOKEN -s 1234 -t DEPLOY -e Prod -c '{"cluster": "Prod"}' -d deploy-person -l deploy.person@example.com  -g $CORTEX_TAG
+```
 
 If you want to be more specific on the type of custom data that should be provided, you can modify the script to fit your needs. As an example, the script in the 'opinionated-example' folder there is a version of the script that instead of custom data, it takes "Status" and "Status Message".
 
@@ -37,33 +39,26 @@ Most CD tools provide a way to run a container. Each one may have different ways
 
 ### Jenkinsfile
 
-In this example, we have added Jenkins [credentials](https://www.jenkins.io/doc/book/using/using-credentials/) to store information like the Cortex API token and Cortex tag.
+In this example, we have added Jenkins [credentials](https://www.jenkins.io/doc/book/using/using-credentials/) to store information like the Cortex API token and Cortex tag. In the example below we pass the Jenkins build number as part of the custom meta-data:
 
 ```shell
 pipeline {
-  environment {
-
-    CORTEX_API_TOKEN= credentials ('cortex-api-token')
-    CORTEX_TAG = credentials ('cortex-tag')
-  }
-  stages {
-    stage ('deploying') {
-      steps {
-        sh '''
-        echo "This step is where the app is deployed
-        '''
-      }
+    agent any
+    environment {
+        CORTEX_TAG    = credentials('CORTEX_TAG')
+        CORTEX_API = credentials('CORTEX_API')
     }
-    stage ('dockerization') {
-      steps {
-        sh '''
-       docker run cremerfc/deploy -s ${ env.BUILD_TAG } -g $CORTEX_TAG -k $CORTEX_API_TOKEN -t "DEPLOY" ...
-        '''
-      }
+    stages {
+        stage('trying') { 
+            steps {
+                sh "docker run cremerfc/deployer:0.1 -k $CORTEX_API -s 1234 -t DEPLOY -e Prod -c '{\"cluster\": \"Prod\", \"Jenkins Job\": $BUILD_NUMBER }' -d deploy-person -l deploy.person@example.com -g $CORTEX_TAG" 
+            }
+        }
     }
-  }
 }
+
 ```
+Note that for the above example you will need to have Docker installed and running wherever the job executes.
 
 ## GitHub Actions
 

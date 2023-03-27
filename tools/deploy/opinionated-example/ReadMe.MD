@@ -1,6 +1,6 @@
 ## Deployer App
 
-Basic Python 3 application that uses the `requests` library to send a REST call using the [Cortex API](https://docs.cortex.io/docs/api/save-deploy) to add a Deploy event to a service.
+Basic Python 3 application that uses the `requests` library to send a REST call using the Cortex API to add a Deploy event to a service.
 
 ![Deploy Event](img/deploy-event.png)
 
@@ -15,21 +15,12 @@ A Dockerfile is also included for your convenience so you don't have to worry ab
 usage: 
 
 deploy.py [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
-                 -d DEPLOYER -l DEPLOYER_EMAIL -c CUSTOM_DATA
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
 or
 
 docker run deployer:latest [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
-                 -d DEPLOYER -l DEPLOYER_EMAIL -c CUSTOM_DATA
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
 ```
-
-For the 'custom data' option you must provide a key value pair in json format, noting that it does not support multi level json. 
-
-Here is an example command (cortex tag and API token are set as environment variables):
-
-python3 deploy.py -k $CORTEX_TOKEN -s 1234 -t DEPLOY -e Prod -c '{"cluster": "Prod"}' -d deploy-person -l deploy.person@example.com  -g $CORTEX_TAG
-
-If you want to be more specific on the type of custom data that should be provided, you can modify the script to fit your needs. As an example, the script in the 'opinionated-example' folder there is a version of the script that instead of custom data, it takes "Status" and "Status Message".
-
 
 ## Integrating with CD tools
 
@@ -57,7 +48,7 @@ pipeline {
     stage ('dockerization') {
       steps {
         sh '''
-       docker run cremerfc/deploy -s ${ env.BUILD_TAG } -g $CORTEX_TAG -k $CORTEX_API_TOKEN -t "DEPLOY" ...
+       docker run cremerfc/deploy -s ${ env.BUILD_TAG } -g $CORTEX_TAG -k $CORTEX_API_TOKEN -t "DEPLOY"
         '''
       }
     }
@@ -74,11 +65,11 @@ name: deploy
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
-    name: Deploy to EC2 on master branch push
+    name: Deploy to EC2 on main branch push
     runs-on: ubuntu-latest
 
     steps:
@@ -94,7 +85,8 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
       - name: Update Cortex
-        run: "docker run cremerfc/deployer:0.1 -k ${{ secrets.CORTEX_API_TOKEN }} -s ${{ github.sha }} -d 'GitHub Actions' -g ${{ secrets.CORTEX_TAG}} -t 'DEPLOY' -e Prod -c '{\"cluster\": \"Prod\" , \"status\": ${{ steps.deploy.outcome }}}' -l email@example.com"
+        run: docker run cremerfc/deploy:0.2 -k ${{ secrets.CORTEX_API_TOKEN }} -s ${{ github.sha }} -d "GitHub Actions" -g ${{ secrets.CORTEX_TAG}} -t "DEPLOY" -e Prod -u ${{ steps.deploy.outcome }} -l email@example.com -m "Trying this"
+  
 
 
 ```

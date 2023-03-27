@@ -51,7 +51,7 @@ try:
   argParser.add_argument("-d","--deployer", required=True, help='')
   argParser.add_argument("-l","--deployer_email", required=True, help='')
   argParser.add_argument("-u","--instance_url", required=False, help='Optional - if you are running on prem provide the URL to your Cortex instance (format should be like https://api.getcortexapp.com)')
-  argParser.add_argument("-c","--custom_data", required=False, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
+  argParser.add_argument("-c","--custom_data", required=True, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
 
   args = argParser.parse_args()
   commit_sha = args.commit_sha
@@ -64,9 +64,6 @@ try:
   api_token = args.api_token
   instance_url = args.instance_url
 
-  print(instance_url) 
-  print(custom_data)
-  print(cortex_tag)
   #Now that we have captured all the parameters, let's put our REST call together
   #First we are going to see if we have all the required options
   if (instance_url is None):
@@ -74,9 +71,6 @@ try:
   else:
     api_url = instance_url + '/api/v1/catalog/' + cortex_tag + '/deploys'
   
-  #json_data = json.loads('\"' + custom_data + '\"')
-  #custom_data = custom_data.replace("'", "")
-  print(api_url)
   headers = {
       'Authorization': 'Bearer ' + api_token,
       'Content-Type': 'application/json'
@@ -93,8 +87,7 @@ try:
       "environment": env,
       "customData": json.loads(custom_data)
     }
-  print(json_body)  
-  #json_body = json.loads(json_body)  
+  
   response = requests.post(api_url, json=json_body, headers=headers)
   print(response)
 except Exception as e:

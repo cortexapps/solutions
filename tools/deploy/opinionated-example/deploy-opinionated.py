@@ -14,11 +14,12 @@ from datetime import datetime
 # deployer.py -sha <Commit SHA> -tag <cortex tag> -type <DEPLOY|> -env <environment> -status <status> -status_msg <status message> -deployer_name <Deployer> - deployer_email <deployer_email>
 
   # commit_sha      -s
-  # custom_data     -c
   # cortex_tag      -g
   # cortex_token    -k
   # type            -t 
   # env             -e
+  # status          -u
+  # status_msg      -m
   # deployer        -d
   # deployer_email  -l 
   # help            -h    
@@ -29,7 +30,8 @@ commit_sha = ''
 cortex_tag = ''      
 deploy_type = ''
 env = ''
-custom_data = ''
+status = ''
+status_msg = ''
 deployer  = ''
 deployer_email = ''
 api_url = ''
@@ -47,16 +49,18 @@ try:
   argParser.add_argument("-g","--cortex_tag", required=True, help='')
   argParser.add_argument("-t","--type", required=True, help='')
   argParser.add_argument("-e","--env", required=True, help='')
+  argParser.add_argument("-u","--status", required=True, help='')
+  argParser.add_argument("-m","--status_msg", required=True, help='')
   argParser.add_argument("-d","--deployer", required=True, help='')
   argParser.add_argument("-l","--deployer_email", required=True, help='')
-  argParser.add_argument("-c","--custom_data", required=False, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
 
   args = argParser.parse_args()
   commit_sha = args.commit_sha
   cortex_tag = args.cortex_tag
   deploy_type = args.type
   env = args.env
-  custom_data = args.custom_data
+  status = args.status
+  status_msg = args.status_msg
   deployer  = args.deployer
   deployer_email = args.deployer_email
   api_token = args.api_token
@@ -78,7 +82,10 @@ try:
        "email": deployer_email
       },
       "environment": env,
-      "customData": custom_data
+      "customData": {
+        "Status": status,
+        "status message": status_msg
+      }
     }
   response = requests.post(api_url, json=json_body, headers=headers)
 except Exception as e:

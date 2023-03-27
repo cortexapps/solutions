@@ -15,14 +15,12 @@ A Dockerfile is also included for your convenience so you don't have to worry ab
 usage: 
 
 deploy.py [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
-                 -d DEPLOYER -l DEPLOYER_EMAIL [-c CUSTOM_DATA]
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
 or
 
 docker run deployer:latest [-h] -k API_TOKEN -s COMMIT_SHA -g CORTEX_TAG -t TYPE -e ENV
-                 -d DEPLOYER -l DEPLOYER_EMAIL [-c CUSTOM_DATA]
+                 -u STATUS -m STATUS_MSG -d DEPLOYER -l DEPLOYER_EMAIL
 ```
-
-Note that the options in brackets ( [ ... ] ) are not required
 
 ## Integrating with CD tools
 

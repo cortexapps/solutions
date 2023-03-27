@@ -26,7 +26,7 @@ For the 'custom data' option you must provide a key value pair in json format, n
 
 Here is an example command (cortex tag and API token are set as environment variables):
 
-python3 deploy.py -k $CORTEX_TOKEN -s 1234 -t DEPLOY -e Prod -c '{"cluster": "Prod"}' -d fernando.cremer@cortex.io -l fernando.cremer@cortex.io  -g $CORTEX_TAG
+python3 deploy.py -k $CORTEX_TOKEN -s 1234 -t DEPLOY -e Prod -c '{"cluster": "Prod"}' -d deploy-person -l deploy.person@example.com  -g $CORTEX_TAG
 
 
 ## Integrating with CD tools

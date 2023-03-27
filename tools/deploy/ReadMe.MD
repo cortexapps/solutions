@@ -1,6 +1,6 @@
 ## Deployer App
 
-Basic Python 3 application that uses the `requests` library to send a REST call using the Cortex API to add a Deploy event to a service.
+Basic Python 3 application that uses the `requests` library to send a REST call using the [Cortex API](https://docs.cortex.io/docs/api/save-deploy) to add a Deploy event to a service.
 
 ![Deploy Event](img/deploy-event.png)
 
@@ -27,6 +27,8 @@ For the 'custom data' option you must provide a key value pair in json format, n
 Here is an example command (cortex tag and API token are set as environment variables):
 
 python3 deploy.py -k $CORTEX_TOKEN -s 1234 -t DEPLOY -e Prod -c '{"cluster": "Prod"}' -d deploy-person -l deploy.person@example.com  -g $CORTEX_TAG
+
+If you want to be more specific on the type of custom data that should be provided, you can modify the script to fit your needs. As an example, the script in the 'opinionated-example' folder there is a version of the script that instead of custom data, it takes "Status" and "Status Message".
 
 
 ## Integrating with CD tools

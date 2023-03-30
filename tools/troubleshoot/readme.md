@@ -20,9 +20,9 @@ In order to make this as simple as possible we have created scripts that automat
 * Download/find/create a Support Bundle spec that outlines everyhing to collect & analyze based on what is available 
 
 * Run the command 
-    * 'kubectl support-bundle spec.yaml
+    * `kubectl support-bundle spec.yaml`
     *  or
-    * 'support-bundle spec.yaml`
+    * `support-bundle spec.yaml`
 
 **Important!** Right now all the specs are set to run on the default namespace and collects everything it can from the cluster. Depending on how locked down our customer's clusters are, we may need to be more specific as to which namespace to collect information from. 
 

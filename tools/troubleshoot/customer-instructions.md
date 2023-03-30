@@ -29,7 +29,7 @@ It is strongly recommended that you download the binary to a path already in you
 
 ## Download the spec
 
-We have our spec in this same repository under /spec folder.
+You can locate the spec in this same repository in the [/specs folder](./specs/spec.yaml).
 
 ## Generating the Bundle
 

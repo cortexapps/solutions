@@ -141,6 +141,7 @@ spec:
           - '{"cluster": "Prod" , "status": "Success"}'
       restartPolicy: Never         
   backoffLimit: 0 
+  
 ```
 
 The only challenge is that it appears that ArgoCD does not make available any information about the sync to the hook.

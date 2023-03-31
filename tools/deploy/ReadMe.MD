@@ -94,6 +94,57 @@ jobs:
 
 ```
 
+## ArgoCD
+
+ArgoCD has [Resource Hooks](https://argo-cd.readthedocs.io/en/stable/user-guide/resource_hooks/#resource-hooks), which allow you to run a Kubernetes job, pod or other Kubernetes kinds. In the example below, a Kubernetes Job is run after the Sync to update Cortex. Note that the Cortex Api Token is stored in a k8s secret created manually in the cluster in the same namespace as the app to be synced.
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: cortex-notification
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    metadata:
+        labels:
+          name: cortex-update
+    spec:      
+      containers:
+      - name: cortex-deployer
+        image: "cremerfc/deployer:0.1"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CORTEX_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: cortex
+              key: CORTEX_TOKEN       
+        args:
+          - -k 
+          - "$(CORTEX_TOKEN)"
+          - -s  
+          - "1234"
+          - -g 
+          - "app-direct"
+          - -t
+          - "DEPLOY"
+          - -e
+          - "PROD"
+          - -d 
+          - "ArgoCD"
+          - -l 
+          - "ops@example.com"
+          - -c 
+          - '{"cluster": "Prod" , "status": "Success"}'
+      restartPolicy: Never         
+  backoffLimit: 0 
+```
+
+The only challenge is that it appears that ArgoCD does not make available any information about the sync to the hook.
+
 ## Azure DevOps
 
 Azure DevOps has a conatiner job available, however it does require Node.js to be in the image (it is currently not). Would probably need to modify the image based on https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops

@@ -1,6 +1,8 @@
 ## PR Maker
 
-This python script queries your cortex instance for all catalog entities. It then retrieves the yaml definition of the entity and finds the github repo. Once it has the repo, it uses the GitHub API via [PyGitHub](https://pypi.org/project/PyGithub/) to find the repo, create a branch, adding the cortex.yaml to it and opens a PR.
+This python script queries your cortex instance for all catalog entities. It then retrieves the yaml definition of the entity and finds the github repo. Once it has the repo, it uses the GitHub API via [PyGitHub](https://pypi.org/project/PyGithub/) to find the repo, create a branch, adding the cortex.yaml to it and opens a PR like in the screenshot below:
+
+<img src="pr.png" />
 
 ### Note
 

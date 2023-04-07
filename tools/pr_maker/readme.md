@@ -6,3 +6,7 @@ This python script queries your cortex instance for all catalog entities. It the
 
 The script uses `main` as the default branch. If you are using another name, make sure to update the script.
 Make sure the organization has it enabled to accept changes via GitHub API tokens, otherwise it may not work.
+
+### Credits
+
+The GitHub code was based on the example [here](https://gist.github.com/nottrobin/a18f9e33286f9db4b83e48af6d285e29). 

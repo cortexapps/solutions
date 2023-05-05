@@ -7,9 +7,6 @@ import os
 import json
 from datetime import datetime
 
-
-
-
 # The following are paremeters that are passed with the command
 # deployer.py -sha <Commit SHA> -tag <cortex tag> -type <DEPLOY|> -env <environment> -deployer_name <Deployer> -deployer_email <deployer_email> -c <custom JSON data> -u <instance url>
 
@@ -29,7 +26,7 @@ commit_sha = ''
 cortex_tag = ''      
 deploy_type = ''
 env = ''
-#custom_data = ''
+custom_data = ''
 deployer  = ''
 deployer_email = ''
 api_url = ''
@@ -44,26 +41,28 @@ instance_url = ''
 try:
   argParser = argparse.ArgumentParser()
   argParser.add_argument("-k","--api_token", required=True, help='The Cortex API token')
-  argParser.add_argument("-s","--commit_sha", required=True, help='The Cortex tag, i.e., the x-cortex-tag: value in the Cortex.yaml file')
+  argParser.add_argument("-s","--commit_sha", required=False, help='The Cortex tag, i.e., the x-cortex-tag: value in the Cortex.yaml file')
   argParser.add_argument("-g","--cortex_tag", required=True, help='')
   argParser.add_argument("-t","--type", required=True, help='')
   argParser.add_argument("-e","--env", required=True, help='')
   argParser.add_argument("-d","--deployer", required=True, help='')
   argParser.add_argument("-l","--deployer_email", required=True, help='')
   argParser.add_argument("-u","--instance_url", required=False, help='Optional - if you are running on prem provide the URL to your Cortex instance (format should be like https://api.getcortexapp.com)')
-  argParser.add_argument("-c","--custom_data", required=True, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
+  argParser.add_argument("-c","--custom_data", required=False, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
+  argParser.add_argument("-i","--title", required=True, help='')
 
   args = argParser.parse_args()
+  api_token = args.api_token
   commit_sha = args.commit_sha
   cortex_tag = args.cortex_tag
   deploy_type = args.type
   env = args.env
-  custom_data = args.custom_data
   deployer  = args.deployer
   deployer_email = args.deployer_email
-  api_token = args.api_token
   instance_url = args.instance_url
-
+  custom_data = args.custom_data
+  title = args.title
+  
   #Now that we have captured all the parameters, let's put our REST call together
   #First we are going to see if we have all the required options
   if (instance_url is None):
@@ -76,7 +75,7 @@ try:
       'Content-Type': 'application/json'
       }
   json_body = {
-      "title": "Deployed by Deployer",
+      "title": title,
       "timestamp": time_stamp,
       "type": deploy_type,
       "sha": commit_sha,

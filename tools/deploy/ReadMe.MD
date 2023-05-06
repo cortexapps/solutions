@@ -96,6 +96,66 @@ jobs:
 
 ## ArgoCD
 
+There are two ways that you can send information to Cortex in Argo CD:
+* Webhooks
+* Resource Hooks
+
+### Webhooks
+
+[Webhooks](https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/webhook/) is probably the prefered way as this allows you to send dynamic data about the sync to Cortex.
+
+Using the example found [here](https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/webhook/#examples) you can make some modifications to send information to Cortex. Here is an example of what your `argocd-notifications-cm' ConfigMap may look like:
+
+```yaml
+
+apiVersion: v1
+kind: ConfigMap
+data:
+  context: |
+    argocdUrl: http://localhost:8080 
+  service.webhook.cortex-webhook: |
+    url: https://api.getcortexapp.com
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer $token 
+    subscriptions: |
+      - recipients:
+        - cortex-webhook
+        triggers:
+        - on-sync-succeeded
+  template.app-sync-succeeded: |
+    webhook:
+      cortex-webhook:
+        method: POST
+        path: /api/v1/catalog/{{.app.metadata.name}}/deploys 
+        body: |
+          { "customData": { "Sync Status": "{{.app.status.sync.status}}","Sync Details": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true" },
+            "environment": "{{.app.spec.destination.name}}",
+            "sha": "{{.app.status.operationState.operation.sync.revision}}",
+            "timestamp": "{{.app.status.operationState.finishedAt}}",
+            "title": "Sync by ArgoCD",
+            "type": "DEPLOY"
+          }
+  trigger.on-sync-succeeded: |
+    - send:
+      - app-sync-succeeded
+      when: app.status.operationState.phase in ['Succeeded']
+        
+
+```
+
+Please note the following on the ConfigMap above:
+* The ArgoCD URL in the `context` section needs to be changed to your ArgoCD URL. This only works if you have used `kubectl port-forward` to access your instance.
+* The token variable ($token) is getting the value from the `argocd-notifications-secret` secret. You can either put your Cortex API Key in the ConfigMap, or in the Secret and reference it in the ConfigMap using the field name in the Secret.
+* The `path` will only work if your service tag in Cortex matches the app name in ArgoCD. If it does not, then you may be able to use the `if` statements in the examples to set the path based on the application name.
+* The `environment` field is set to the destination cluster name. Check your Application Manifest in ArgoCD to see how the Destination is set. You can either use the cluster url or the name in the ArgoCD spec.
+
+### Resource Hooks
+
 ArgoCD has [Resource Hooks](https://argo-cd.readthedocs.io/en/stable/user-guide/resource_hooks/#resource-hooks), which allow you to run a Kubernetes job, pod or other Kubernetes kinds. In the example below, a Kubernetes Job is run after the Sync to update Cortex. Note that the Cortex Api Token is stored in a k8s secret created manually in the cluster in the same namespace as the app to be synced.
 
 ```yaml

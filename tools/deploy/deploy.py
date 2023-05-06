@@ -66,7 +66,8 @@ try:
       "timestamp": time_stamp,
       "type": deploy_type
   }
-  
+
+#Not all parameters are required, so let's see which ones are provided and add them to the dictionary 
   if args.commit_sha is not None:
     commit_sha = args.commit_sha
     init_dict.update({ "sha": commit_sha })

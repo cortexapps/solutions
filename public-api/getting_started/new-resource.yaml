@@ -1,0 +1,6 @@
+openapi: 3.0.1
+info:
+ title: My Kafka
+ description: this was created by api
+ x-cortex-tag: my-kafka-api
+ x-cortex-type: aws-kafka

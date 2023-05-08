@@ -18,7 +18,8 @@ from datetime import datetime
   # env             -e
   # deployer        -d
   # deployer_email  -l 
-  # help            -h    
+  # help            -h
+  # title           -i  
   
 #Let's define the variables
 
@@ -35,6 +36,7 @@ api_token = ''
 time_stamp= datetime.now().replace(microsecond=0).isoformat() + 'Z'
 json_body = ''
 instance_url = ''
+title = ''
 
 # let's do the right thing and catch any errors
   
@@ -44,28 +46,56 @@ try:
   argParser.add_argument("-s","--commit_sha", required=False, help='The Cortex tag, i.e., the x-cortex-tag: value in the Cortex.yaml file')
   argParser.add_argument("-g","--cortex_tag", required=True, help='')
   argParser.add_argument("-t","--type", required=True, help='')
-  argParser.add_argument("-e","--env", required=True, help='')
-  argParser.add_argument("-d","--deployer", required=True, help='')
-  argParser.add_argument("-l","--deployer_email", required=True, help='')
+  argParser.add_argument("-e","--env", required=False, help='')
+  argParser.add_argument("-d","--deployer", required=False, help='')
+  argParser.add_argument("-l","--deployer_email", required=False, help='')
   argParser.add_argument("-u","--instance_url", required=False, help='Optional - if you are running on prem provide the URL to your Cortex instance (format should be like https://api.getcortexapp.com)')
   argParser.add_argument("-c","--custom_data", required=False, help='Include your custom medatadata in JSON format, i.e., { "fieldname":"fieldvalue"} ')
   argParser.add_argument("-i","--title", required=True, help='')
 
   args = argParser.parse_args()
+#we should have all the required parameters, otherwise error would have been returned to the user
   api_token = args.api_token
-  commit_sha = args.commit_sha
   cortex_tag = args.cortex_tag
   deploy_type = args.type
-  env = args.env
-  deployer  = args.deployer
-  deployer_email = args.deployer_email
-  instance_url = args.instance_url
-  custom_data = args.custom_data
-  title = args.title
+  title = args.title 
+
+#let's define a dictionary to hold the require fields to get started
+  init_dict = {
+      "title": title,
+      "timestamp": time_stamp,
+      "type": deploy_type
+  }
+
+#Not all parameters are required, so let's see which ones are provided and add them to the dictionary 
+  if args.commit_sha is not None:
+    commit_sha = args.commit_sha
+    init_dict.update({ "sha": commit_sha })
+  if args.env is not None:
+    env = args.env
+    init_dict.update({"environment": env})
+  if args.custom_data is not None:  
+    custom_data = args.custom_data
+    init_dict.update({"customData": json.loads(custom_data)})
+  if (args.deployer is not None) and (args.deployer_email is not None):
+    deployer = args.deployer
+    deployer_email = args.deployer_email
+    init_dict.update({"deployer":{"name": deployer, "email": deployer_email}})
+  #If the deployer name is not provided, but email is provided, use the email as the name  
+  if (args.deployer_email is not None) and (args.deployer is None):
+    deployer_email = args.deployer_email
+    init_dict.update({"deployer":{"name": deployer_email, "email": deployer_email}})
+  #If the deployer name is provided, but email is not, leave email empty 
+  if (args.deployer_email is None) and (args.deployer is not None):
+    deployer = args.deployer
+    init_dict.update({"deployer":{"name": deployer, "email": ""}})  
+  if args.instance_url is not None:
+    instance_url = args.instance_url
+
   
   #Now that we have captured all the parameters, let's put our REST call together
   #First we are going to see if we have all the required options
-  if (instance_url is None):
+  if (instance_url==''):
     api_url = 'https://api.getcortexapp.com/api/v1/catalog/' + cortex_tag + '/deploys'
   else:
     api_url = instance_url + '/api/v1/catalog/' + cortex_tag + '/deploys'
@@ -74,20 +104,10 @@ try:
       'Authorization': 'Bearer ' + api_token,
       'Content-Type': 'application/json'
       }
-  json_body = {
-      "title": title,
-      "timestamp": time_stamp,
-      "type": deploy_type,
-      "sha": commit_sha,
-      "deployer": {
-        "name": deployer,
-       "email": deployer_email
-      },
-      "environment": env,
-      "customData": json.loads(custom_data)
-    }
-  
-  response = requests.post(api_url, json=json_body, headers=headers)
+  json_body = json.dumps(init_dict)
+  print(json_body)
+  response = requests.post(api_url, data=json_body, headers=headers)
   print(response)
+  print(response.text)
 except Exception as e:
   print(e)

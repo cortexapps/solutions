@@ -9,7 +9,7 @@
 ##########################################
 
 ## API Spec and Version
-openapi: 3.0.0
+openapi: 3.0.1
 
 # Service Descriptors
 
@@ -18,7 +18,24 @@ openapi: 3.0.0
 info:
   title: <HUMAN_READABLE_SERVICE_NAME>
   x-cortex-tag: <SERVICE_TAG>
-#   description: <DESCRIPTION>
+#  description: <DESCRIPTION>
+#  x-cortex-type: <resource type eg mysql s3 kafka-topic OR domain> Defaults to service
+
+# If the entity in question is a Resource, the definition must exist in Cortex prior. 
+# Fill out the following with the definition fields from JSON schema more here: https://docs.cortex.io/docs/reference/basics/resource-catalog#resource-definitions
+# x-cortex-definition:
+  # Add required fields nested here
+
+# Domains (Optional)
+# Read more here https://docs.cortex.io/docs/reference/basics/domain-catalog
+# x-cortex-domain-parents:
+#   - tag: <parent domain tag>
+#   - tag: <parent domain tag>
+# x-cortex-children:
+#   - tag: <child domain tag>
+#   - tag: <child domain tag>
+
+
 # Add any additional metadata nested under the "info" field to use in Query Builder
 
   # Links
@@ -61,6 +78,11 @@ info:
 
   # Required fields: N/A
   # Optional fields: N/A
+  # x-cortex-custom-integration-mappings:
+  # - my-alternative-mapping
+  # - another-project-alias
+  # Provide service alias for custom integration webhooks: https://docs.cortex.io/docs/reference/basics/custom-data#changing-the-mappings-for-services
+
   # x-cortex-custom-metadata:
     # my-key: the value
     # another-key:
@@ -82,7 +104,8 @@ info:
   # Required fields: x-cortex-tag, method (required if path present), path (required if method present)
   # Optional fields: description, metadata
   # x-cortex-dependency:
-  #     - tag: <TAG>
+  #   cortex:
+  #      - tag: <TAG>
   #       method: <HTTP_METHOD>
   #       path: <PATH_FOR_METHOD>
   #       description: <DESCRIPTION>
@@ -90,24 +113,44 @@ info:
   #         tags:
   #           - <TAG_1>
   #           - <TAG_2>
-  #         prod: true
-  #
-  # Note the metadata section above is customizable.
+  #         <key>: <value>
+  #   aws: #Use if drawing dependency edges between resources in cloud providr<>services
+  #       tags:
+  #         - key: my-key-1
+  #           value: my-value-1
+  #         - key: my-key-2
+  #           value: my-value-2
+  # Note the metadata section above is customizable. https://docs.cortex.io/docs/reference/basics/dependencies
 
   # Integrations
-  
+
+  # AWS
+  # All fields required
+  # x-cortex-infra:
+  #   aws:
+  #     arns: #For resources only
+  #       - <full arn>
+  #       - <full arn>
+  #     ecs: #For services and domains only
+  #       - clusterArn: <CLUSTER_ARN>
+  #         serviceArn: <SERVICE_ARN>
+  #       - clusterArn: <CLUSTER_ARN_2>
+  #         serviceArn: <SERVICE_ARN_2>
+    
   # AzureAD
   # x-cortex-owners:
   #     - type: group
   #       name: <TEAM_NAME>
   #       provider: ACTIVE_DIRECTORY
   #       description: # optional
+  #       inheritance: APPEND | FALLBACK | NONE #For Domains only
 
   # Azure DevOps
   # x-cortex-git:
   #   azure:
   #     project: <project-name>
   #     repository: <repository-name>
+  #     basepath: <basepath> # optional
 
   # BambooHR
   # x-cortex-owners:
@@ -115,6 +158,7 @@ info:
   #       name: <TEAM_NAME>
   #       provider: BAMBOO_HR
   #       description: # optional
+  #       inheritance: APPEND | FALLBACK | NONE #For Domains only
 
   # Bitbucket
   # x-cortex-git:
@@ -124,6 +168,20 @@ info:
   # Bugsnag
   # x-cortex-bugsnag:
   #   project: <PROJECT_KEY> # projectKey in Bugsnag
+
+  # Buildkite
+  # x-cortex-ci-cd:
+  # buildkite:
+  #   pipelines:
+  #   - slug: <slug 1>
+  #   - slug: <slug 2>
+
+  # Checkmarx
+  # x-cortex-checkmarx:
+  # projects:
+  #   - projectName: <project name>
+  #   - projectId: <project ID>
+  # Note project name and ID are interchangeable
 
   #Codecov
   # x-cortex-static-analysis:
@@ -147,14 +205,17 @@ info:
   #       - id: <SLO_ID>
   #       - id: <SLO_ID_2>
 
-  # AWS ECS
-  # x-cortex-infra:
-  #   aws:
-  #     ecs:
-  #       - clusterArn: <CLUSTER_ARN>
-  #         serviceArn: <SERVICE_ARN>
-  #       - clusterArn: <CLUSTER_ARN_2>
-  #         serviceArn: <SERVICE_ARN_2>
+# Dynatrace
+# x-cortex-apm:
+#   dynatrace:
+#     entityIds:
+#       - <entity ID>
+#     entityNameMatchers:
+#       - "foo.*" #Regex for display name
+# x-cortex-slos:
+#   dynatrace:
+#     - id: mock-slo-id-1
+
 
   # Github
   # x-cortex-git:
@@ -166,6 +227,7 @@ info:
   #     name: <ORGANIZATION>/<TEAM> # Must be of form <org>/<team>
   #       provider: GITHUB
   #       description: # optional
+  #       inheritance: APPEND | FALLBACK | NONE #For Domains only
 
 
   # Gitlab
@@ -180,6 +242,13 @@ info:
   #   - type: group
   #     name: <GROUP_NAME>
   #     provider: GOOGLE
+  #       inheritance: APPEND | FALLBACK | NONE #For Domains only
+  # x-cortex-infra: #For resources
+  #   gcp:
+  #     resources:
+  #       - resourceName: <resource name?
+  #         projectId: <project id>
+  #         resourceType: <type of resource>
 
   # Grafana
   # x-cortex-dashboards:
@@ -190,13 +259,14 @@ info:
   # Jira
   # x-cortex-issues:
   #   jira:
+  #     defaultJql: '<insert default JQL>' # read here https://docs.cortex.io/docs/reference/integrations/jira
   #     labels:
   #       - <LABEL1>
   #       - <LABEL2>
   #     components:
-  #       - <COMPONENT1>
+  #       - <COMPONENT>
   #     projects:
-  #       - project1
+  #       - <PROJECT>
 
   # Kubernetes
   # x-cortex-k8s:
@@ -210,7 +280,10 @@ info:
   #  argorollout:
   #    - identifier: namespace/name
   #      cluster: dev
-  #   statefulset:
+  #  cronjob:
+  #   - identifier: namespace/name
+  #     cluster: dev
+  #  statefulset:
   #   - identifier: namespace/name
   #     cluster: dev
 
@@ -223,6 +296,16 @@ info:
   #         - percentile: <PERCENTILE>
   #           target: <TARGET>
   #           slo: <SLO>
+
+  # Mend
+  # x-cortex-static-analysis:
+  #   mend:
+  #     applicationIds:
+  #       - mend_id_1
+  #       - mend_id_2
+  #     projectIds:
+  #       - project_id_1
+  #       - project_id_2
 
   # New Relic
   # x-cortex-apm:
@@ -250,6 +333,7 @@ info:
   #     name: <GROUP_NAME>
   #     provider: OPSGENIE
   #     description: # optional
+  #       inheritance: APPEND | FALLBACK | NONE #For Domains only
   # x-cortex-alerts:
   #   - type: opsgenie
   #     tag: <KEY>
@@ -275,6 +359,8 @@ info:
   #    - errorQuery: <query>
   #      totalQuery: <query>
   #      slo: <slo target number>
+  #      alias: <alias>
+  #      name: <name>
 
   # Rollbar
   # x-cortex-rollbar:
@@ -297,6 +383,9 @@ info:
   # x-cortex-owners:
   #   - type: slack
   #     channel: <CHANNEL_NAME>
+  #     notificationsEnabled: true #optional
+  #     description: This is a description for this slack channel # optional
+  #     inheritance: APPEND | FALLBACK | NONE #For Domains only
   # Note: list Slack channels, *without* the preceeding "#"
 
   # Snyk
@@ -304,14 +393,41 @@ info:
   #   projects:
   #     - organizationId:<ORGANIZATION_ID>
   #       projectId: <PROJECT_ID>
+  #       source: <CODE or OPEN_SOURCE> # OPEN_SOURCE is default
 
   # Sonarqube
   # x-cortex-static-analysis:
   #   sonarqube:
   #     project: <PROJECT_KEY> # projectKey in SonarQube
 
+  # Sumo Logic
+  # x-cortex-slos:
+  #   sumologic:
+  #     - id: <SLO ID 1>
+  #     - id: <SLO ID 2>
+
+  # Veracode
+  # x-cortex-static-analysis:
+  #   veracode:
+  #     applicationNames:
+  #       - My Application
+  #       - Second Application
+  #     sandboxes:
+  #       - applicationName: My Application
+  #         sandboxName: My Sandbox
+  #       - applicationName: Second Application
+  #         sandboxName: Second Sandbox
+
   # VictorOps
   # x-cortex-oncall:
   #   victorops:
   #     type: SCHEDULE
   #     id: <SCHEDULE_ID>
+
+  # Workday 
+  # See setup guide here https://docs.cortex.io/docs/reference/integrations/workday
+  # x-cortex-owners:
+  # - type: group
+  #   name: Engineering # teamName provided in the report
+  #   provider: WORKDAY
+  #   description: This is a description for this owner # optional

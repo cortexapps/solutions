@@ -197,6 +197,7 @@ info:
   #         value: <VALUE>
   #       - tag: <KEY>
   #         value: <VALUE>
+  #.    serviceName: <NAME IN DATADOG>
   #     monitors:
   #         - <MONITOR_ID>
   #         - <MONITOR_ID_2>
@@ -267,6 +268,7 @@ info:
   #       - <COMPONENT>
   #     projects:
   #       - <PROJECT>
+  
 
   # Kubernetes
   # x-cortex-k8s:

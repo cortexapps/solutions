@@ -21,24 +21,25 @@ info:
 #  description: <DESCRIPTION>
 #  x-cortex-type: <resource type eg mysql s3 kafka-topic OR domain> Defaults to service
 
+# Resources (Required)
 # If the entity in question is a Resource, the definition must exist in Cortex prior. 
 # Fill out the following with the definition fields from JSON schema more here: https://docs.cortex.io/docs/reference/basics/resource-catalog#resource-definitions
-# x-cortex-definition:
-  # Add required fields nested here
+#  x-cortex-definition: #Note this is ONLY for Resources
+#  Add required fields nested here
 
 # Domains (Optional)
 # Read more here https://docs.cortex.io/docs/reference/basics/domain-catalog
-# x-cortex-domain-parents:
-#   - tag: <parent domain tag>
-#   - tag: <parent domain tag>
-# x-cortex-children:
-#   - tag: <child domain tag>
-#   - tag: <child domain tag>
+  # x-cortex-domain-parents:
+  #   - tag: <parent domain tag>
+  #   - tag: <parent domain tag>
+  # x-cortex-children:
+  #   - tag: <child domain tag>
+  #   - tag: <child domain tag>
 
 
 # Add any additional metadata nested under the "info" field to use in Query Builder
 
-  # Links
+# Links
 
   # Required fields: name, type (choose any type you prefer), url
   # Optional fields: description
@@ -105,7 +106,7 @@ info:
   # Optional fields: description, metadata
   # x-cortex-dependency:
   #   cortex:
-  #      - tag: <TAG>
+  #     - tag: <TAG>
   #       method: <HTTP_METHOD>
   #       path: <PATH_FOR_METHOD>
   #       description: <DESCRIPTION>
@@ -113,13 +114,12 @@ info:
   #         tags:
   #           - <TAG_1>
   #           - <TAG_2>
-  #         <key>: <value>
   #   aws: #Use if drawing dependency edges between resources in cloud providr<>services
-  #       tags:
-  #         - key: my-key-1
-  #           value: my-value-1
-  #         - key: my-key-2
-  #           value: my-value-2
+  #         tags:
+  #           - key: my-key-1
+  #             value: my-value-1
+  #           - key: my-key-2
+  #             value: my-value-2
   # Note the metadata section above is customizable. https://docs.cortex.io/docs/reference/basics/dependencies
 
   # Integrations
@@ -171,16 +171,16 @@ info:
 
   # Buildkite
   # x-cortex-ci-cd:
-  # buildkite:
-  #   pipelines:
-  #   - slug: <slug 1>
-  #   - slug: <slug 2>
+  #   buildkite:
+  #     pipelines:
+  #       - slug: <slug 1>
+  #       - slug: <slug 2>
 
   # Checkmarx
   # x-cortex-checkmarx:
-  # projects:
-  #   - projectName: <project name>
-  #   - projectId: <project ID>
+  #   projects:
+  #     - projectName: <project name>
+  #     - projectId: <project ID>
   # Note project name and ID are interchangeable
 
   #Codecov
@@ -189,7 +189,7 @@ info:
   #     repo: <REPO_NAME> # git repo, with org and repo name
   #     provider: <GITHUB | GITLAB | BITBUCKET> # select one of the three options
 
-  #Datadog
+  # Datadog
   # x-cortex-apm:
   #   datadog:
   #     serviceTags: # List of tags & values
@@ -197,7 +197,7 @@ info:
   #         value: <VALUE>
   #       - tag: <KEY>
   #         value: <VALUE>
-  #.    serviceName: <NAME IN DATADOG>
+  #     serviceName: <NAME IN DATADOG>
   #     monitors:
   #         - <MONITOR_ID>
   #         - <MONITOR_ID_2>

@@ -23,3 +23,7 @@ The script reads in the `owned by` field to get the user that owns the item. It 
 ### Links
 
 The script will add a link to the corresponding ServiceNow Item
+
+### Custom Data
+
+The script will add the ServiceNow sys_id as custom data to the service in Cortex

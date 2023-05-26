@@ -1,6 +1,6 @@
 ## ServiceNow Importer
 
-ServiceNow Importer is a script to help you import items from your CMDB to Cortex as Services.
+ServiceNow Importer is a script to help you import items from your CMDB to Cortex as Services. The script could easily be modified to also import items from ServiceNow as Resources
 
 ## API tokens
 

@@ -72,6 +72,17 @@ for s in services:
         u_response = requests.post(u_url, headers=u_headers, data=data)
         if (u_response.status_code == 200):
             print('Succesfully uploaded service')
+            #Let's add custom-data to store the servicenow sys_id
+            cd_headers = {
+                'Authorization': 'Bearer ' + c_token,
+                'Content-Type': 'application/json'
+                 }
+            cd_url = c_url + 'api/v1/catalog/' + s_tag + '/custom-data'
+            json_body = {
+                "key":"ServiceNow sys_id",
+                "value": s['sys_id']
+            }     
+            cd_resp = requests.post(url=cd_url, json=json_body, headers=cd_headers)
         #print(u_response.text)
 
     elif s_response.status_code == 200:

@@ -17,7 +17,7 @@ s_url = "https://dev93537.service-now.com/"
 # We are going to query the CMDB_appl table but will store it as a variable since this is likely to vary from instance to instance
 s_table = 'cmdb_ci_appl'
 
-# The full servicenow URL to send the request - note that we are only retrieving the sys_id, name, and owned_by fields (edit as needed)
+# The full servicenow URL to send the request - note that we are only retrieving the sys_id, name, and owned_by fields (edit as needed) - if we only want a subset of the records, consider adding 
 service_url= s_url + 'api/now/table/' + s_table + '?sysparm_fields=sys_id%2Cname%2Cowned_by'
 # The headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Basic ' + s_token}
@@ -34,7 +34,7 @@ for s in services:
     if (s['owned_by'] != ""):
         u_sys_id = s['owned_by']['value']
         #print(u_sys_id)
-        #we need the email of the user so we can assign it to the user
+        #we need the email of the user so we can assign it to the service in Cortex as an owner
         user_url = s_url + '/api/now/table/sys_user?sysparm_query=sys_id%3D' + u_sys_id + '&sysparm_fields=email'
         u_headers = headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Basic ' + s_token}
         u_resp = requests.get(user_url,headers=u_headers)
@@ -45,12 +45,12 @@ for s in services:
         info['x-cortex-owners'] = owners
     else:
         print('no owner found, so will not add ownership to service in Cortex')        
-    service_name = s['name']
-    info['title'] = service_name
+    info['title'] = s['name']
     #let's convert the name to a tag
-    s_tag = service_name.replace(' ','-').lower()
+    s_tag = s['name'].replace(' ','-').lower()
     print(s_tag)
     info['x-cortex-tag'] = s_tag
+    #Let's add at link that points to the service in ServiceNow
     links.append({'name': 'ServiceNow','type':'ServiceNow Link','url': s_url + 'nav_to.do?uri=cmdb_ci_appl.do?sys_id=' + s['sys_id']})
     info['x-cortex-link'] = links
     

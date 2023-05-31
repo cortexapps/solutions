@@ -8,7 +8,18 @@ The project was scaffolded using Cortex's [cookiecutter template](https://github
 
 ## Notes
 
-* At this time, the plugin only retrieves the first 10 incidents from the instance, it does not use the Cortex context to only get the incidents against this service.
+* The plugin is set up to retrieve all incidents associated to a Configuration Item (table `CMDB_CI`) that has a name that is the same as the name of the Service in Cortex. If your instance of ServiceNow is tracking the services is a different table, you will need to change the field in this section of the /src/components/App.tsx file:
+
+```typescript
+
+      const result = await CortexApi.proxyFetch(
+        `https://dev93537.service-now.com/api/now/table/cmdb_ci?sysparm_query=name%3D${cortexService}`
+      );
+ 
+```
+  You will also need to make sure that this table is set up as a `refernce field` in your Incidents table.
+
+* The plugin will only work when used within the context of a Service.
 
 * Set up the Cortex Proxy with the following headers:
     * `Accept`: `application/json`

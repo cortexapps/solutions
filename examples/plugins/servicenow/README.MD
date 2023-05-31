@@ -8,7 +8,7 @@ The project was scaffolded using Cortex's [cookiecutter template](https://github
 
 ## Notes
 
-* The plugin is set up to retrieve all incidents associated to a Configuration Item (table `CMDB_CI`) that has a name that is the same as the name of the Service in Cortex. If your instance of ServiceNow is tracking the services is a different table, you will need to change the field in this section of the /src/components/App.tsx file:
+* The plugin is set up to retrieve all incidents associated to a Configuration Item (table `cmdb_ci`) that has a name that matches the name of the Service in Cortex. If your instance of ServiceNow tracks services in a different table, you will need to change the field in this section of the /src/components/App.tsx file to use that table:
 
 ```typescript
 
@@ -17,7 +17,7 @@ The project was scaffolded using Cortex's [cookiecutter template](https://github
       );
  
 ```
-  You will also need to make sure that this table is set up as a `refernce field` in your Incidents table.
+  You will also need to make sure that this table is set up as a `reference field` in your Incidents table.
 
 * The plugin will only work when used within the context of a Service.
 

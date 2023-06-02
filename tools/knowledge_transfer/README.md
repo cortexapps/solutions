@@ -18,4 +18,4 @@ Scripts:
     * yaml
     * io
   * Set an environment variable for your API token (`export CORTEX_API_TOKEN=<your token>`).
-  * Run the script!
+  * Run the script from the directory as it is using a relative path to find the `yamls` directory!

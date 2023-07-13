@@ -2,6 +2,7 @@ import React from "react";
 
 import "../baseStyles.css";
 import { CortexApi } from "@cortexapps/plugin-core";
+import { Box, Text, SimpleTable } from "@cortexapps/plugin-core/components";
 
 const getServiceTag = async (): Promise<string> => {
   const context = await CortexApi.getContext();
@@ -32,27 +33,31 @@ const App: React.FC = () => {
 
   }, []);
 
-  
+  const config = { 
+    columns: [{
+      Cell: (number: string) => <Box ><Text>{number}</Text></Box>,
+      accessor: 'number',
+      id: 'number',
+      title: 'Number',
+      width: '10%'
+    }, {
+      Cell: (title: string) => <Box><Text>{title}</Text></Box>,
+      accessor: 'title',
+      id: 'title',
+      title: 'Short Description',
+      width: '65%'
+    }, {
+      Cell: (state: string) => <Box justifyContent={'center'}><Text>{state}</Text></Box>,
+      accessor: 'state',
+      id: 'state',
+      title: 'State',
+    }]
+  }
  
 
   return (
     <div className="posts-container">
-      <table >
-        <tr>
-          <th>Number</th>
-          <th>Short Description</th>
-          <th>State</th>
-        </tr>
-        {posts.map((post) => {
-          return (
-            <tr key={post.number}>
-              <td>{post.number}</td>
-              <td>{post.title}</td>
-              <td >{post.state}</td>
-            </tr>
-          );
-        })}
-      </table>
+      <SimpleTable config={config} items={posts} />
     </div>
   );
 };

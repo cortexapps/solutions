@@ -19,7 +19,7 @@ const App: React.FC = () => {
     const fetchData = async (): Promise<void> =>{
       const cortexTag = await getServiceTag();
       console.log(cortexTag)
-      const result = await CortexApi.proxyFetch(`https://api.getcortexapp.com/api/v1/catalog/${cortexTag}/openapi`);
+      const result = await CortexApi.proxyFetch(`http://api.getcortexapp.mooretex.com/api/v1/catalog/${cortexTag}/openapi`);
       const resultJson = await result.json();
       console.log({resultJson})
       const ghRepo: string = resultJson.info['x-cortex-git'].github.repository;

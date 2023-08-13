@@ -20,18 +20,20 @@ headers = {
 response = requests.get(url=config['CORTEX_API_URL'], headers=headers)
 catalog = response.json()['entities']
 
+# Iterate through all projects
 for project in projects:
     try:
-        print("Listing components in", project)
+        # Get all components in the project
         components = jira.project_components(project=str(project))
         for item in catalog:
+            # For **EVERY** item in the catalog, let's try and create a component (if it doesn't exist!)
             newComponent = item['tag']
             exists = False
             for component in components:
                 if component.name == newComponent:
                     exists = True
-                    print("Found ",newComponent, ". Will not create!")
             if not exists:
+                # Component does not exist. Let's create it.
                 res = jira.create_component(name=newComponent, project=str(project))
                 print("Did not find", res, ". Creating component in", project)
     except:

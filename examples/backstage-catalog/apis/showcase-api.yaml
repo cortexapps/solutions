@@ -2,12 +2,12 @@ apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   annotations:
+    backstage.io/managed-by-location: url:https://github.com/cortexapps/solutions/tree/backstage-catalog/examples/backstage-catalog/apis/showcase-api.yaml
+    backstage.io/managed-by-origin-location: url:https://github.com/cortexapps/solutions/blob/backstage-catalog/examples/backstage-catalog/all.yaml
+    backstage.io/view-url: https://github.com/cortexapps/solutions/tree/backstage-catalog/examples/backstage-catalog/apis/showcase-api.yaml
+    backstage.io/edit-url: https://github.com/cortexapps/solutions/edit/backstage-catalog/examples/backstage-catalog/apis/showcase-api.yaml
+    backstage.io/source-location: url:https://github.com/cortexapps/solutions/tree/backstage-catalog/examples/backstage-catalog/apis/
     backstage.io/definition-at-location: url:https://raw.githubusercontent.com/APIs-guru/openapi-directory/master/APIs/spotify.com/v1/swagger.yaml
-    backstage.io/edit-url: https://github.com/merck-gen/backstage-showcase/edit/main/catalog-info.yaml
-    backstage.io/managed-by-location: url:https://github.com/merck-gen/backstage-showcase/tree/main/catalog-info.yaml
-    backstage.io/managed-by-origin-location: url:https://github.com/merck-gen/backstage-showcase/blob/main/catalog-info.yaml
-    backstage.io/source-location: url:https://github.com/merck-gen/backstage-showcase/tree/main/
-    backstage.io/view-url: https://github.com/merck-gen/backstage-showcase/tree/main/catalog-info.yaml
   description: The Spotify web API
   etag: a7d140fccc85ed0444a7f4113de2f517fda43dfc
   name: api-showcase
@@ -16,43 +16,6 @@ metadata:
   - showcase
   title: API Showcase
   uid: a69eb0b5-c0ee-4ae5-9cbe-53d833e71822
-relations:
-- target:
-    kind: component
-    name: mobile-application-showcase
-    namespace: default
-  targetRef: component:default/mobile-application-showcase
-  type: apiConsumedBy
-- target:
-    kind: component
-    name: web-application-showcase
-    namespace: default
-  targetRef: component:default/web-application-showcase
-  type: apiConsumedBy
-- target:
-    kind: component
-    name: service-showcase
-    namespace: default
-  targetRef: component:default/service-showcase
-  type: apiProvidedBy
-- target:
-    kind: component
-    name: mobile-application-showcase
-    namespace: default
-  targetRef: component:default/mobile-application-showcase
-  type: dependencyOf
-- target:
-    kind: component
-    name: web-application-showcase
-    namespace: default
-  targetRef: component:default/web-application-showcase
-  type: dependencyOf
-- target:
-    kind: group
-    name: backstage-admins
-    namespace: merck-gen
-  targetRef: group:merck-gen/backstage-admins
-  type: ownedBy
 spec:
   definition: >
     openapi: 3.0.1

@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  annotations:
+    github.com/project-slug: cremerica/app-direct
+  name: www-artist
+  description: I modified the description
+spec:
+  type: website
+  lifecycle: production
+  owner: team-a
+  system: artist-engagement-portal
+  consumesApis: ['component:artist-lookup']
+  x-cortex-apm:
+    datadog:
+      serviceTags: # List of tags & values
+        - tag: service
+          value: brain
+        - tag: backend
+          value: brain

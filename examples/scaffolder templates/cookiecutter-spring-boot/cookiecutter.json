@@ -1,0 +1,6 @@
+{
+	"project_name": "Simple Spring Boot App",
+	"app_name": "simpleapp",
+	"_copy_without_render": [".gradle", "gradle/", "*gradlew", "*gradlew.bat"],
+	"version": "0.1"
+}

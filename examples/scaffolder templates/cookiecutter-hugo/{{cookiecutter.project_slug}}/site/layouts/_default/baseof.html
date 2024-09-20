@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang={{ '{{ $.Site.Language.Lang }}' }}>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ '{{ $.Site.Title }}' }}</title>
+
+  <link rel="stylesheet" href={{ '"/assets/{{- (index .Site.Data.assets "bundle.css") -}}"' }}/>
+</head>
+
+<body>
+  {{ '{{ block "main" . }} {{end}}' }}
+
+  <script type="application/javascript" src={{ '"/assets/{{- (index .Site.Data.assets "runtime.js") -}}"' }}>
+  </script>
+  <script type="application/javascript" src={{ '"/assets/{{- (index .Site.Data.assets "bundle.js") -}}"' }}>
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+sudo: false
+language: python
+branches:
+  except:
+    - gh-page
+    - /release\/v.*-pre/
+python:
+  - "2.7"
+  - "3.4"
+  - "3.6"
+env:
+  matrix:
+    - SCENARIO_NAME=test
+    - SCENARIO_NAME=flake8
+install:
+  - pip install tox-travis
+script:
+  - tox -e ${SCENARIO_NAME}
+
+jobs:
+  include:
+    - stage: build docs
+      python:
+        - "3.6"
+      env:
+        - SCENARIO_NAME=docs
+      install:
+        - pip install tox-travis
+      script:
+        - tox -e ${SCENARIO_NAME}
+    - stage: integration -tests
+      python:
+        - "3.6"
+      env:
+        - SCENARIO_NAME=py36-github-integrationtests,py36-readthedocs-latest-integrationtests,py36-readthedocs-stable-integrationtests
+        - CHROMEDRIVER_VERSION=2.45
+      before_install:
+        - ls -all $TRAVIS_BUILD_DIR
+        - wget -q https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
+        - mkdir ~/chromedriver
+        - unzip /tmp/chromedriver_linux64.zip -d ~/chromedriver
+        - chmod +x ~/chromedriver
+        - sudo sh $TRAVIS_BUILD_DIR/ci-scripts/install_selenium_dependencies.sh
+        - export PATH=$PATH:${HOME}/chromedriver
+      install:
+        - pip install tox-travis
+      script:
+        - tox -e ${SCENARIO_NAME}

@@ -1,0 +1,8 @@
+tag,title,github,runbook,PCI
+a-service,A Service,cremerica-org/a-service,http://local.instranet.rubook.a-service.doc,false
+b-service,B Service,cremerica-org/b-service,http://local.instranet.rubook.b-service.doc,true
+c-service,C Service,cremerica-org/c-service,http://local.instranet.rubook.c-service.doc,false
+d-service,D Service,cremerica-org/d-service,http://local.instranet.rubook.d-service.doc,false
+e-service,E Service,cremerica-org/e-service,http://local.instranet.rubook.e-service.doc,true
+f-service,F Service,cremerica-org/f-service,http://local.instranet.rubook.f-service.doc,false
+g-service,G Service,cremerica-org/g-service,http://local.instranet.rubook.g-service.doc,false

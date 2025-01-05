@@ -1,0 +1,6 @@
+grpcio==1.68.1
+grpcio-tools==1.68.1
+Jinja2==3.1.5
+MarkupSafe==3.0.2
+protobuf==5.29.2
+setuptools==75.6.0

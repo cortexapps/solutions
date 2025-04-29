@@ -1,0 +1,13 @@
+body {
+  font: 14px Arial;
+  margin-top: 20px;
+  display: flex;
+  justify-content: left;
+}
+table {
+  width: 500px;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px;
+}
